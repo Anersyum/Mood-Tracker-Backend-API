@@ -1,0 +1,6 @@
+.vscode/
+SomeApp.db
+SomeApp.db-shm
+SomeApp.db-Wal
+obj/
+bin/
