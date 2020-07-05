@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SocialSite.API.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace SocialSite.API.Data
 {
@@ -15,9 +16,19 @@ namespace SocialSite.API.Data
             this.context = context;
         }
 
-        public async Task<IEnumerable<Mood>> GetAllUserMoods(int userId)
+        public async Task<IEnumerable<Mood>> GetMothlyUserMoods(int userId)
         {
-            var moodsFromUser =  await this.context.Moods.Where(x => x.UserId == userId).ToListAsync();
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            int daysInMonth = DateTime.DaysInMonth(year, month);
+
+            DateTime endDateOfMonth = new DateTime(year, month, daysInMonth);
+            DateTime beginingOfMonth = new DateTime(year, month, 1);
+
+            var moodsFromUser =  await this.context.Moods.Where(x =>
+                x.UserId == userId && 
+                    (x.MoodRecordedDate >= beginingOfMonth && x.MoodRecordedDate <= endDateOfMonth)
+            ).ToListAsync();
 
             return moodsFromUser;
         }

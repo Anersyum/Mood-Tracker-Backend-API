@@ -49,9 +49,9 @@ namespace SocialSite.API.Controllers
         }
 
         [HttpGet("get/{userId}")]
-        public async Task<IActionResult> GetAllUserMoodsAction(int userId)
+        public async Task<IActionResult> GetMonthlyUserMoodsAction(int userId)
         {
-            var moods = await this.moodRepository.GetAllUserMoods(userId);
+            var moods = await this.moodRepository.GetMothlyUserMoods(userId);
 
             return Ok(moods);
         }
