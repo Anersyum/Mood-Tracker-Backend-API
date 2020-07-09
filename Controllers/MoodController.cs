@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SocialSite.API.Data;
 using SocialSite.API.Dto;
-using SocialSite.API.Helpers;
 using SocialSite.API.Models;
 
 namespace SocialSite.API.Controllers
@@ -32,7 +31,6 @@ namespace SocialSite.API.Controllers
 
             if (moodValue > 2 || moodValue < 0)
             {
-
                 return BadRequest("Mood does not exist");
             }
 
