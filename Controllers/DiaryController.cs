@@ -61,7 +61,9 @@ namespace SocialSite.API.Controllers
 
             await this.diaryRepository.SaveNewDiaryEntry(diary);
 
-            return StatusCode(203);
+            var mappedDiaryEntry = this.mapper.Map<DiaryToReturnDto>(diary);
+
+            return StatusCode(201, mappedDiaryEntry);
         }
     }
 }
