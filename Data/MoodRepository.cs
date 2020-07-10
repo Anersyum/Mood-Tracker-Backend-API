@@ -16,7 +16,7 @@ namespace SocialSite.API.Data
             this.context = context;
         }
 
-        public async Task<IEnumerable<Mood>> GetMothlyUserMoods(int userId)
+        public async Task<IEnumerable<int>> GetMonthlyUserMoodStatistics(int userId)
         {
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -25,12 +25,26 @@ namespace SocialSite.API.Data
             DateTime endDateOfMonth = new DateTime(year, month, daysInMonth);
             DateTime beginingOfMonth = new DateTime(year, month, 1);
 
-            var moodsFromUser =  await this.context.Moods.Where(x =>
+            var deppressedMoods =  await this.context.Moods.Where(x =>
                 x.UserId == userId && 
-                    (x.MoodRecordedDate >= beginingOfMonth && x.MoodRecordedDate <= endDateOfMonth)
-            ).ToListAsync();
+                    (x.MoodRecordedDate >= beginingOfMonth && x.MoodRecordedDate <= endDateOfMonth) && x.MoodValue == 0
+            ).CountAsync();
+            
+            var contentMoods =  await this.context.Moods.Where(x =>
+                x.UserId == userId && 
+                    (x.MoodRecordedDate >= beginingOfMonth && x.MoodRecordedDate <= endDateOfMonth) && x.MoodValue == 1
+            ).CountAsync();
 
-            return moodsFromUser;
+            var happyMoods =  await this.context.Moods.Where(x =>
+                x.UserId == userId && 
+                    (x.MoodRecordedDate >= beginingOfMonth && x.MoodRecordedDate <= endDateOfMonth) && x.MoodValue == 2
+            ).CountAsync();
+
+            List<int> moodStatistics = new List<int>() {
+                deppressedMoods, contentMoods, happyMoods
+            };
+
+            return moodStatistics;
         }
 
         public async Task<Mood> SaveMood(Mood mood)
