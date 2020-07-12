@@ -65,5 +65,27 @@ namespace SocialSite.API.Controllers
 
             return StatusCode(201, mappedDiaryEntry);
         }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteDiaryEntryAction(DiaryDto diaryEntryDto)
+        {
+            if (!await this.diaryRepository.DeleteDiaryEntry(diaryEntryDto))
+            {
+                return BadRequest("Something went wrong");
+            }   
+
+            return Ok("Deleted successfully");
+        }
+
+        [HttpPost("edit")]
+        public async Task<IActionResult> EditDiaryEntryAction(DiaryDto diaryDto)
+        {
+            if (!await this.diaryRepository.EditDiaryEntry(diaryDto))
+            {
+                return BadRequest("Something went wrong");
+            }
+
+            return Ok("Edited successfully");
+        }
     }
 }

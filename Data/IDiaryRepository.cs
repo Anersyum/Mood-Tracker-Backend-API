@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SocialSite.API.Dto;
 using SocialSite.API.Models;
 
 namespace SocialSite.API.Data
@@ -9,5 +10,7 @@ namespace SocialSite.API.Data
          Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId);
          Task<Diary> SaveNewDiaryEntry(Diary diary);
          Task<Diary> GetDiaryEntry(int diaryId, int userId); 
+         Task<bool> DeleteDiaryEntry(DiaryDto diaryEntry);
+         Task<bool> EditDiaryEntry(DiaryDto diaryEntry);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SocialSite.API.Dto;
 using SocialSite.API.Models;
 
 namespace SocialSite.API.Data
@@ -33,6 +34,49 @@ namespace SocialSite.API.Data
             await this.context.SaveChangesAsync();
 
             return diary;
+        }
+
+        public async Task<bool> DeleteDiaryEntry(DiaryDto diaryEntryDto)
+        {
+            var diaryEntry = await this.GetDiaryEntry(diaryEntryDto.Id, diaryEntryDto.UserId);
+
+            try 
+            {
+                this.context.Diary.Remove(diaryEntry);
+                await this.context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> EditDiaryEntry(DiaryDto diaryEntry)
+        {
+            try 
+            {
+                Diary foundDiaryEntry = await this.context.Diary
+                                            .FirstOrDefaultAsync(x => x.Id == diaryEntry.Id);
+
+                if (foundDiaryEntry == null)
+                {
+                    return false;
+                }
+
+                foundDiaryEntry.Title = diaryEntry.Title;
+                foundDiaryEntry.Entry = diaryEntry.Entry;
+
+                this.context.Diary.Update(foundDiaryEntry);
+                await this.context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
