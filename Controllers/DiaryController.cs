@@ -74,7 +74,7 @@ namespace SocialSite.API.Controllers
                 return BadRequest("Something went wrong");
             }   
 
-            return Ok("Deleted successfully");
+            return Ok();
         }
 
         [HttpPost("edit")]
