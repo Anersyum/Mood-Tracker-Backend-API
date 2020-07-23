@@ -29,24 +29,24 @@ namespace SocialSite.API.Controllers
             this.userRepo = userRepo;
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> GetAllUsersAction()
+        [HttpGet("get/{username}")]
+        public async Task<IActionResult> GetUsersByUsernameAction(string username)
         {
-            var users = await this.userRepo.GetAllUsers();
+            var users = await this.userRepo.GetUsersByUsername(username);
             var mappedUsers = this.mapper.Map<IEnumerable<UserToListDto>>(users);
             
             return Ok(mappedUsers);
         }
 
-        [HttpGet("get/{id}")]
-        public async Task<IActionResult> GetUserByIdAction(int id)
-        {
-            var userToReturn = await this.userRepo.GetUserViaId(id);
+        // [HttpGet("get/{id}")]
+        // public async Task<IActionResult> GetUserByIdAction(int id)
+        // {
+        //     var userToReturn = await this.userRepo.GetUserViaId(id);
 
-            DetailedUserDto user = this.mapper.Map<DetailedUserDto>(userToReturn);
+        //     DetailedUserDto user = this.mapper.Map<DetailedUserDto>(userToReturn);
             
-            return Ok(user);
-        }
+        //     return Ok(user);
+        // }
 
         [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeleteUser(UserDto user)

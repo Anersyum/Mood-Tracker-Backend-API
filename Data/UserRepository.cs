@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialSite.API.Models;
@@ -24,9 +25,10 @@ namespace SocialSite.API.Data
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetUsersByUsername(string username)
         {
-            List<User> users = await this.context.Users.ToListAsync();
+            username = username.ToLower();
+            List<User> users = await this.context.Users.Where(x => x.Username.IndexOf(username) != -1).ToListAsync();
 
             return users;
         }

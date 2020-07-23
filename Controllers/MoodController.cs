@@ -46,7 +46,6 @@ namespace SocialSite.API.Controllers
             return StatusCode(201, mood);
         }
 
-        // todo: sum the moods here and send the sum back
         [HttpGet("get/{userId}")]
         public async Task<IActionResult> GetMonthlyUserMoodsAction(int userId)
         {
