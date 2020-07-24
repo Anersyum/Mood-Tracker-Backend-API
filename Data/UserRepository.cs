@@ -35,7 +35,7 @@ namespace SocialSite.API.Data
 
         public async Task<User> GetUserViaId(int userId)
         {
-            return await this.context.Users.Include(x => x.Moods).FirstOrDefaultAsync(x => x.Id == userId);
+            return await this.context.Users.FirstOrDefaultAsync(x => x.Id == userId);
         }
     }
 }
