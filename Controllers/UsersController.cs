@@ -38,15 +38,15 @@ namespace SocialSite.API.Controllers
             return Ok(mappedUsers);
         }
 
-        // [HttpGet("get/{id}")]
-        // public async Task<IActionResult> GetUserByIdAction(int id)
-        // {
-        //     var userToReturn = await this.userRepo.GetUserViaId(id);
+        [HttpGet("get/user/{id}")]
+        public async Task<IActionResult> GetUserByIdAction(int id)
+        {
+            var userToReturn = await this.userRepo.GetUserViaId(id);
 
-        //     DetailedUserDto user = this.mapper.Map<DetailedUserDto>(userToReturn);
+            DetailedUserDto user = this.mapper.Map<DetailedUserDto>(userToReturn);
             
-        //     return Ok(user);
-        // }
+            return Ok(user);
+        }
 
         [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeleteUser(UserDto user)
