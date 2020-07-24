@@ -11,15 +11,18 @@ namespace SocialSite.API.Data
     public class DiaryRepository : IDiaryRepository
     {
         private readonly DataContext context;
-
+        private readonly int numberOfEntriesPerPage = 11;
         public DiaryRepository(DataContext context)
         {
             this.context = context;
             
         }
-        public async Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId)
+        public async Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId, int page)
         {
-            return await this.context.Diary.Where(x => x.UserId == userId).ToListAsync();
+            return await this.context.Diary.Where(x => x.UserId == userId)
+                            .Skip((page - 1) * this.numberOfEntriesPerPage)
+                            .Take(page * this.numberOfEntriesPerPage)
+                            .ToListAsync();
         }
 
         public async Task<Diary> GetDiaryEntry(int diaryId, int userId)

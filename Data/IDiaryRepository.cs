@@ -7,7 +7,7 @@ namespace SocialSite.API.Data
 {
     public interface IDiaryRepository
     {
-         Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId);
+         Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId, int page);
          Task<Diary> SaveNewDiaryEntry(Diary diary);
          Task<Diary> GetDiaryEntry(int diaryId, int userId); 
          Task<bool> DeleteDiaryEntry(DiaryDto diaryEntry);

@@ -30,11 +30,11 @@ namespace SocialSite.API.Controllers
             this.diaryRepository = diaryRepository;
         }
 
-        [HttpGet("get/user/{userId}/entries")]
-        public async Task<IActionResult> GetAllDiaryEntriesAction(int userId)
+        [HttpGet("get/user/{userId}/entries/page/{page}")]
+        public async Task<IActionResult> GetAllDiaryEntriesAction(int userId, int page)
         {
             // maybe check if the user exists?
-            var diaryEntries = await this.diaryRepository.GetAllUserDiaryEntries(userId);
+            var diaryEntries = await this.diaryRepository.GetAllUserDiaryEntries(userId, page);
             var mappedEntries = this.mapper.Map<ICollection<DiaryToReturnDto>>(diaryEntries);
 
             return Ok(mappedEntries);
