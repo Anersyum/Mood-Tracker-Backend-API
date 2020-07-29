@@ -29,14 +29,25 @@ namespace SocialSite.API.Controllers
         public async Task<IActionResult> Register(RegisteredUserDto userToRegister)
         {
             string usernameToLower = userToRegister.Username.ToLower();
+            string emailToLower = userToRegister.Email.ToLower();
 
-            if (await this.authRepo.UserExits(usernameToLower))
+            if (!this.authRepo.ValidateEmail(emailToLower))
+            {
+                return BadRequest("You haven't entered a valid email.");
+            }
+
+            if (await this.authRepo.UserExits(usernameToLower, emailToLower))
             {
                 return BadRequest("Username exits!");
             }
 
-            User user = new User();
-            user.Username = userToRegister.Username.ToLower();
+            User user = new User() {
+                Username = usernameToLower,
+                Email = emailToLower,
+                FristName = userToRegister.FirstName,
+                LastName = userToRegister.LastName,
+                DateOfBirth = userToRegister.DateOfBirth
+            };
 
             user = await this.authRepo.Register(user, userToRegister.Password);
 

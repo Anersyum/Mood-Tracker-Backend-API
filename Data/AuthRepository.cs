@@ -17,7 +17,7 @@ namespace SocialSite.API.Data
 
         public async Task<User> Login(string username, string password)
         {
-            User user = await this.context.Users.FirstOrDefaultAsync(x => x.Username == username);
+            User user = await this.context.Users.FirstOrDefaultAsync(x => x.Username == username || x.Email == username);
 
             if (user == null || !VerifyUserPassword(password, user.PasswordHash, user.PasswordSat)) 
             {
@@ -71,9 +71,19 @@ namespace SocialSite.API.Data
             }
         }
 
-        public async Task<bool> UserExits(string username)
+        public async Task<bool> UserExits(string username, string email)
         {
-            return await this.context.Users.AnyAsync(x => x.Username == username);
+            return await this.context.Users.AnyAsync(x => x.Username == username || x.Email == email);
+        }
+
+        public bool ValidateEmail(string email)
+        {
+            if (email.IndexOf("@") == -1)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

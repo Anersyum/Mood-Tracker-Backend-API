@@ -9,8 +9,8 @@ using SocialSite.API.Data;
 namespace SocialSite.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200709150023_AddedDiaryModel")]
-    partial class AddedDiaryModel
+    [Migration("20200729150744_AddedAllModels")]
+    partial class AddedAllModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,6 +74,18 @@ namespace SocialSite.API.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FristName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("BLOB");
 
@@ -87,6 +99,9 @@ namespace SocialSite.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

@@ -8,6 +8,6 @@ namespace SocialSite.API.Dto
         public string Title { get; set; }
         public string Entry { get; set; }
         public int UserId { get; set; }
-        public DateTime DateRecorded { get; set; }
+        public string DateRecorded { get; set; }
     }
 }

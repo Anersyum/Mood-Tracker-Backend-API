@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SocialSite.API.Dto
@@ -9,5 +10,11 @@ namespace SocialSite.API.Dto
         [Required]
         [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 characters")]
         public string Password { get; set; }
+        [Required]
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string RePassword { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }

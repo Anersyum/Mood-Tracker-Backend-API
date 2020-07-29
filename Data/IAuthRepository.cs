@@ -7,6 +7,7 @@ namespace SocialSite.API.Data
     {
          Task<User> Register(User user, string password);
          Task<User> Login(string username, string password);
-         Task<bool> UserExits(string username);
+         Task<bool> UserExits(string username, string email);
+         bool ValidateEmail(string email);
     }
 }
