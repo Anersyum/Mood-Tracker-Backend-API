@@ -45,6 +45,7 @@ namespace SocialSite.API.Controllers
 
             DetailedUserDto user = this.mapper.Map<DetailedUserDto>(userToReturn);
             
+            user.DateOfBirth = userToReturn.DateOfBirth.ToShortDateString();
             return Ok(user);
         }
 

@@ -9,7 +9,7 @@ using SocialSite.API.Data;
 namespace SocialSite.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200729150744_AddedAllModels")]
+    [Migration("20200729180423_AddedAllModels")]
     partial class AddedAllModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace SocialSite.API.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FristName")
+                    b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")

@@ -44,7 +44,7 @@ namespace SocialSite.API.Controllers
             User user = new User() {
                 Username = usernameToLower,
                 Email = emailToLower,
-                FristName = userToRegister.FirstName,
+                FirstName = userToRegister.FirstName,
                 LastName = userToRegister.LastName,
                 DateOfBirth = userToRegister.DateOfBirth
             };
@@ -83,7 +83,7 @@ namespace SocialSite.API.Controllers
             var claims = new[] 
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
             };
 
             // here we sign the token so that we can authenticate the token on the server side

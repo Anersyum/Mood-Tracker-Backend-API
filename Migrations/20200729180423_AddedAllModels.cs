@@ -18,7 +18,7 @@ namespace SocialSite.API.Migrations
                     ProfileImagePath = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSat = table.Column<byte[]>(nullable: true),
-                    FristName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false)
