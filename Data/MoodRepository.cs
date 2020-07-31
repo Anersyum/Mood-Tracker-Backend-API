@@ -21,8 +21,8 @@ namespace SocialSite.API.Data
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             int daysInMonth = DateTime.DaysInMonth(year, month);
-
-            DateTime endDateOfMonth = new DateTime(year, month, daysInMonth);
+            
+            DateTime endDateOfMonth = new DateTime(year, month, daysInMonth, 23, 59, 59);
             DateTime beginingOfMonth = new DateTime(year, month, 1);
 
             var deppressedMoods =  await this.context.Moods.Where(x =>
