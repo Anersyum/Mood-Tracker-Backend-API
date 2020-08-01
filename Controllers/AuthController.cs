@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using SocialSite.API.Data;
 using SocialSite.API.Dto;
 using SocialSite.API.Models;
+using SocialSite.API.Helpers;
 
 namespace SocialSite.API.Controllers
 {
@@ -69,36 +70,14 @@ namespace SocialSite.API.Controllers
             user.Username = user.Username.ToLower();
             
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            var token = CreateToken(tokenHandler, user); 
+            JwtHandlerCreator tokenCreator = new JwtHandlerCreator(this.config);
+
+            var token = tokenCreator.CreateToken(tokenHandler, user); 
 
             return Ok(new 
             {
                 token = tokenHandler.WriteToken(token)
             });
-        }
-
-        private SecurityToken CreateToken(JwtSecurityTokenHandler tokenHandler, User user)
-        {
-            // we build the token with claims
-            var claims = new[] 
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-            };
-
-            // here we sign the token so that we can authenticate the token on the server side
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.config.GetSection("AppSettings:Token").Value));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            // creating the token
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = credentials
-            };
-
-            return tokenHandler.CreateToken(tokenDescriptor);
         }
     }
 }

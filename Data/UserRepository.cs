@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SocialSite.API.Dto;
 using SocialSite.API.Models;
 
 namespace SocialSite.API.Data
@@ -14,9 +16,42 @@ namespace SocialSite.API.Data
             this.context = context;
 
         }
-        public void EditUser(User user)
+        public async Task<bool> EditUser(EditUserDto user)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var userToEdit = await this.context.Users.Where(x => x.Id == user.Id).FirstOrDefaultAsync();
+
+                if (userToEdit == null)
+                {
+                    return false;
+                }
+
+                this.UpdateUser(userToEdit, user);
+
+                this.context.Users.Update(userToEdit);
+                await this.context.SaveChangesAsync();    
+            }
+            catch (System.Exception)
+            {
+                
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool UpdateUser(User userToUpdate, EditUserDto userNewInfo)
+        {
+            userToUpdate.Username = userNewInfo.Username;
+            userToUpdate.Email = userNewInfo.Email;
+            userToUpdate.FirstName = userNewInfo.FirstName;
+            userToUpdate.LastName = userNewInfo.LastName;
+            userToUpdate.DateOfBirth = userNewInfo.DateOfBirth;
+            userToUpdate.Bio = userNewInfo.Bio;
+            userToUpdate.ProfileImagePath = userNewInfo.ProfileImagePath;
+            
+            return true;
         }
 
         public async void DeleteUser(User user)

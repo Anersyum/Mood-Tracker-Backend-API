@@ -48,6 +48,22 @@ namespace SocialSite.API.Controllers
             user.DateOfBirth = userToReturn.DateOfBirth.ToShortDateString();
             return Ok(user);
         }
+        
+        [HttpPost("edit/user")]
+        public async Task<IActionResult> EditUser(EditUserDto userToEdit)
+        {
+            if (userToEdit == null)
+            {
+                return BadRequest("Invalid request.");
+            }
+
+            if (!await this.userRepo.EditUser(userToEdit))
+            {
+                return BadRequest("User could not be edited");
+            }
+
+            return Ok("User edited!");
+        }
 
         [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeleteUser(UserDto user)
