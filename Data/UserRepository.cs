@@ -16,7 +16,7 @@ namespace SocialSite.API.Data
             this.context = context;
 
         }
-        public async Task<bool> EditUser(EditUserDto user)
+        public async Task<User> EditUser(EditUserDto user)
         {
             try
             {
@@ -24,21 +24,20 @@ namespace SocialSite.API.Data
 
                 if (userToEdit == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 this.UpdateUser(userToEdit, user);
 
                 this.context.Users.Update(userToEdit);
                 await this.context.SaveChangesAsync();    
+
+                return userToEdit;
             }
             catch (System.Exception)
             {
-                
-                return false;
+                return null;
             }
-
-            return true;
         }
 
         private bool UpdateUser(User userToUpdate, EditUserDto userNewInfo)

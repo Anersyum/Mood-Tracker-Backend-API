@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -57,12 +58,24 @@ namespace SocialSite.API.Controllers
                 return BadRequest("Invalid request.");
             }
 
-            if (!await this.userRepo.EditUser(userToEdit))
+            User user = await this.userRepo.EditUser(userToEdit);
+
+            if (user == null)
             {
                 return BadRequest("User could not be edited");
             }
 
-            return Ok("User edited!");
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtHandlerCreator tokenCreator = new JwtHandlerCreator(this.config);
+
+            var token = tokenCreator.CreateToken(tokenHandler, user);
+
+            return Ok(new 
+            {
+                success = true,
+                message = "Edited user.",
+                token = tokenHandler.WriteToken(token)
+            });
         }
 
         [HttpPost("delete/{id}")]

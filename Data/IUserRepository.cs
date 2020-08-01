@@ -9,7 +9,7 @@ namespace SocialSite.API.Data
     {
          Task<IEnumerable<User>> GetUsersByUsername(string username);
          Task<User> GetUserViaId(int userId);
-         Task<bool> EditUser(EditUserDto user);
+         Task<User> EditUser(EditUserDto user);
 
          void DeleteUser(User user);
     }
