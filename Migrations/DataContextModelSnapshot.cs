@@ -47,13 +47,10 @@ namespace SocialSite.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("MoodRecordedDate")
+                    b.Property<string>("MoodName")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MoodValue")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -104,6 +101,30 @@ namespace SocialSite.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("SocialSite.API.Models.UserMoods", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateRecorded")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MoodId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MoodId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserMoods");
+                });
+
             modelBuilder.Entity("SocialSite.API.Models.Diary", b =>
                 {
                     b.HasOne("SocialSite.API.Models.User", "User")
@@ -115,8 +136,21 @@ namespace SocialSite.API.Migrations
 
             modelBuilder.Entity("SocialSite.API.Models.Mood", b =>
                 {
-                    b.HasOne("SocialSite.API.Models.User", "User")
+                    b.HasOne("SocialSite.API.Models.User", null)
                         .WithMany("Moods")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SocialSite.API.Models.UserMoods", b =>
+                {
+                    b.HasOne("SocialSite.API.Models.Mood", "Mood")
+                        .WithMany()
+                        .HasForeignKey("MoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialSite.API.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

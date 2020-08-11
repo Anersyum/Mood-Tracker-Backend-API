@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SocialSite.API.Migrations
 {
-    public partial class AddedAllModels : Migration
+    public partial class ChangedMoodsAndAddedUserMoods : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,15 +56,41 @@ namespace SocialSite.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MoodValue = table.Column<int>(nullable: false),
-                    MoodRecordedDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    MoodName = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Moods", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Moods_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserMoods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<int>(nullable: false),
+                    MoodId = table.Column<int>(nullable: false),
+                    DateRecorded = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMoods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserMoods_Moods_MoodId",
+                        column: x => x.MoodId,
+                        principalTable: "Moods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserMoods_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -82,6 +108,16 @@ namespace SocialSite.API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserMoods_MoodId",
+                table: "UserMoods",
+                column: "MoodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMoods_UserId",
+                table: "UserMoods",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
@@ -92,6 +128,9 @@ namespace SocialSite.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Diary");
+
+            migrationBuilder.DropTable(
+                name: "UserMoods");
 
             migrationBuilder.DropTable(
                 name: "Moods");
