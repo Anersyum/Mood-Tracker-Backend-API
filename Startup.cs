@@ -44,7 +44,7 @@ namespace SocialSite.API
             services.AddAutoMapper(typeof(UserProfile), typeof(DiaryProfile));
 
             services.AddScoped<IAuthRepository, AuthRepository>();
-            // services.AddScoped<IMoodRepository, MoodRepository>();
+            services.AddScoped<IMoodRepository, MoodRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDiaryRepository, DiaryRepository>();
             

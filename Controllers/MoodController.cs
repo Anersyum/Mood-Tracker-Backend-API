@@ -14,15 +14,22 @@ namespace SocialSite.API.Controllers
     [Route("api/[controller]")]
     public class MoodController : ControllerBase
     {
-        // private readonly IMoodRepository moodRepository;
-        // private readonly IConfiguration config;
+        private readonly IMoodRepository moodRepository;
+        private readonly IConfiguration config;
 
-        // public MoodController(IMoodRepository moodRepository, IConfiguration config)
-        // {
-        //     this.config = config;
-        //     this.moodRepository = moodRepository;
-        // }
+        public MoodController(IMoodRepository moodRepository, IConfiguration config)
+        {
+            this.config = config;
+            this.moodRepository = moodRepository;
+        }
 
+        [HttpGet("get/{moodName}")]
+        public async Task<IActionResult> GetMoodsAction(string moodName)
+        {
+            var moodsList = await this.moodRepository.FindMoods(moodName);
+
+            return Ok(moodsList);
+        }
         // [HttpPost("save")]
         // public async Task<IActionResult> SaveAction(MoodDto moodToSave)
         // {
