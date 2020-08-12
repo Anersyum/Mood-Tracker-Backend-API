@@ -18,6 +18,11 @@ namespace SocialSite.API.Data
 
         public async Task<IEnumerable<Mood>> FindMoods(string moodName)
         {
+            if (moodName == "empty")
+            {
+                return await this.context.Moods.ToListAsync();
+            }
+            
             return await this.context.Moods.Where(x => x.MoodName.IndexOf(moodName) != -1).ToListAsync();
         }
     }
