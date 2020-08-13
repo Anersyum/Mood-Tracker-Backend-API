@@ -30,28 +30,20 @@ namespace SocialSite.API.Controllers
 
             return Ok(moodsList);
         }
-        // [HttpPost("save")]
-        // public async Task<IActionResult> SaveAction(MoodDto moodToSave)
-        // {
-        //     int moodValue = Convert.ToInt32(moodToSave.MoodValue);
-        //     int userId = Convert.ToInt32(moodToSave.UserId);
 
-        //     if (moodValue > 2 || moodValue < 0)
-        //     {
-        //         return BadRequest("Mood does not exist");
-        //     }
+        [HttpPost("save")]
+        public async Task<IActionResult> SaveAction(MoodDto moodToSave)
+        {
+            var userMood = await this.moodRepository.SaveMood(moodToSave);
 
-        //     Mood mood = new Mood
-        //     {
-        //         UserId = userId,
-        //         MoodValue = moodValue
-        //     };
+            if (userMood == null)
+            {
+                return BadRequest("Mood does not exist");
+            }
+            
 
-        //     mood.MoodRecordedDate = DateTime.Now;
-        //     await this.moodRepository.SaveMood(mood);
-
-        //     return StatusCode(201, mood);
-        // }
+            return StatusCode(201, userMood);
+        }
 
         // [HttpGet("get/{userId}")]
         // public async Task<IActionResult> GetMonthlyUserMoodsAction(int userId)
