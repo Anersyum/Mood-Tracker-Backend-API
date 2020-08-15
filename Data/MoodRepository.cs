@@ -42,7 +42,8 @@ namespace SocialSite.API.Data
             UserMoods userMood = new UserMoods() 
             {
                 UserId = userId,
-                MoodId = moodId
+                MoodId = moodId,
+                DateRecorded = DateTime.Now
             };
 
             await this.context.UserMoods.AddAsync(userMood);
