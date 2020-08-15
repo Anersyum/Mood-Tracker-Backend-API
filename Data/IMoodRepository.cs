@@ -9,6 +9,6 @@ namespace SocialSite.API.Data
     {
          Task<UserMoods> SaveMood(MoodDto mood);
         //  Task<IEnumerable<int>> GetMonthlyUserMoodStatistics(int userId);  
-        Task<IEnumerable<Mood>> FindMoods(string moodName);
+        Task<IEnumerable<Mood>> GetAllMoods();
     }
 }

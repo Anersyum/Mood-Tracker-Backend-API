@@ -17,14 +17,9 @@ namespace SocialSite.API.Data
             this.context = context;
         }
 
-        public async Task<IEnumerable<Mood>> FindMoods(string moodName)
+        public async Task<IEnumerable<Mood>> GetAllMoods()
         {
-            if (moodName == "empty")
-            {
-                return await this.context.Moods.ToListAsync();
-            }
-            
-            return await this.context.Moods.Where(x => x.MoodName.IndexOf(moodName) != -1).ToListAsync();
+            return await this.context.Moods.ToListAsync();
         }
 
         public async Task<UserMoods> SaveMood(MoodDto moodToSave)

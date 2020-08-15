@@ -23,10 +23,10 @@ namespace SocialSite.API.Controllers
             this.moodRepository = moodRepository;
         }
 
-        [HttpGet("get/{moodName}")]
-        public async Task<IActionResult> GetMoodsAction(string moodName)
+        [HttpGet("get/all")]
+        public async Task<IActionResult> GetMoodsAction()
         {
-            var moodsList = await this.moodRepository.FindMoods(moodName);
+            var moodsList = await this.moodRepository.GetAllMoods();
 
             return Ok(moodsList);
         }
