@@ -45,12 +45,12 @@ namespace SocialSite.API.Controllers
             return StatusCode(201, userMood);
         }
 
-        // [HttpGet("get/{userId}")]
-        // public async Task<IActionResult> GetMonthlyUserMoodsAction(int userId)
-        // {
-        //     var moods = await this.moodRepository.GetMonthlyUserMoodStatistics(userId);
+        [HttpGet("get/statistics/{userId}")]
+        public async Task<IActionResult> GetMonthlyUserMoodsAction(int userId)
+        {
+            var moods = await this.moodRepository.GetMonthlyUserMoodStatistics(userId);
 
-        //     return Ok(moods);
-        // }
+            return Ok(moods);
+        }
     }
 }

@@ -7,8 +7,8 @@ namespace SocialSite.API.Data
 {
     public interface IMoodRepository
     {
-         Task<UserMoods> SaveMood(MoodDto mood);
-        //  Task<IEnumerable<int>> GetMonthlyUserMoodStatistics(int userId);  
+        Task<UserMoods> SaveMood(MoodDto mood);
+        Task<IEnumerable<object>> GetMonthlyUserMoodStatistics(int userId);  
         Task<IEnumerable<Mood>> GetAllMoods();
     }
 }
