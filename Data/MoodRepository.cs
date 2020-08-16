@@ -29,8 +29,27 @@ namespace SocialSite.API.Data
                 return null;
             }
 
-            var allMoods = await this.context.Moods.ToListAsync();
+            var userMoods = await this.CountMoods();
+
+            return userMoods;
+        }
+
+        private async Task<bool> UserExists(int userId)
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<IEnumerable<object>> CountMoods()
+        {
             List<object> userMoods = new List<object>();
+            var allMoods = await this.context.Moods.ToListAsync();
             int i = 1;
 
             foreach (var mood in allMoods)
@@ -81,19 +100,6 @@ namespace SocialSite.API.Data
             var mood = await this.context.Moods.FirstOrDefaultAsync(x => x.Id == moodId);
 
             if (mood == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private async Task<bool> UserExists(int userId)
-        {
-
-            var user = await this.context.Users.FirstOrDefaultAsync(x => x.Id == userId);
-
-            if (user == null)
             {
                 return false;
             }
