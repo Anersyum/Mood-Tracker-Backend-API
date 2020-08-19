@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using SocialSite.API.Data;
 using SocialSite.API.Dto;
 using SocialSite.API.Helpers;
@@ -51,11 +50,16 @@ namespace SocialSite.API.Controllers
         }
         
         [HttpPost("edit/user")]
-        public async Task<IActionResult> EditUser(EditUserDto userToEdit)
+        public async Task<IActionResult> EditUser([FromForm]EditUserDto userToEdit)
         {
             if (userToEdit == null)
             {
                 return BadRequest("Invalid request.");
+            }
+
+            if (userToEdit.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
             }
 
             User user = await this.userRepo.EditUser(userToEdit);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -29,13 +30,31 @@ namespace SocialSite.API.Data
 
                 this.UpdateUser(userToEdit, user);
 
+                if (user.ProfileImage.Length > 0)
+                {
+                    var contentType = user.ProfileImage.ContentType.Split("/")[1];
+                    string[] allowedFiles = new string[] {"jpg", "jpeg", "png"};
+
+                    if (allowedFiles.Contains(contentType))
+                    {
+                        string newFileName = user.ProfileImage.FileName;
+
+                        using (var stream = System.IO.File.Create($"./Assets/Images/{newFileName}"))
+                        {
+                            await user.ProfileImage.CopyToAsync(stream);
+                            userToEdit.ProfileImagePath = Path.GetFullPath($"./Assets/Images/{newFileName}");
+                        }   
+                    }
+                }
+                
                 this.context.Users.Update(userToEdit);
                 await this.context.SaveChangesAsync();    
 
                 return userToEdit;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                System.Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -48,7 +67,6 @@ namespace SocialSite.API.Data
             userToUpdate.LastName = userNewInfo.LastName;
             userToUpdate.DateOfBirth = userNewInfo.DateOfBirth;
             userToUpdate.Bio = userNewInfo.Bio;
-            userToUpdate.ProfileImagePath = userNewInfo.ProfileImagePath;
             
             return true;
         }
