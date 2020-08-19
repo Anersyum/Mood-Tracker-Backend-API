@@ -33,16 +33,17 @@ namespace SocialSite.API.Data
                 if (user.ProfileImage.Length > 0)
                 {
                     var contentType = user.ProfileImage.ContentType.Split("/")[1];
-                    string[] allowedFiles = new string[] {"jpg", "jpeg", "png"};
-
-                    if (allowedFiles.Contains(contentType))
+                    string[] allowedFileTypes = new string[] {"jpg", "jpeg", "png"};
+                    // todo: secure the file upload
+                    if (allowedFileTypes.Contains(contentType))
                     {
-                        string newFileName = user.ProfileImage.FileName;
+                        string newFileName = Path.GetRandomFileName().Split(".")[0];
+                        string filePath = $"./Assets/Images/{newFileName}.{contentType}";
 
-                        using (var stream = System.IO.File.Create($"./Assets/Images/{newFileName}"))
+                        using (var stream = System.IO.File.Create(filePath))
                         {
                             await user.ProfileImage.CopyToAsync(stream);
-                            userToEdit.ProfileImagePath = Path.GetFullPath($"./Assets/Images/{newFileName}");
+                            userToEdit.ProfileImagePath = Path.GetFullPath(filePath);
                         }   
                     }
                 }
