@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SocialSite.API.Dto;
 using SocialSite.API.Models;
@@ -12,8 +12,10 @@ namespace SocialSite.API.Data
     public class UserRepository : IUserRepository
     {
         private readonly DataContext context;
-        public UserRepository(DataContext context)
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public UserRepository(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
+            this.httpContextAccessor = httpContextAccessor;
             this.context = context;
 
         }
@@ -33,23 +35,24 @@ namespace SocialSite.API.Data
                 if (user.ProfileImage.Length > 0)
                 {
                     var contentType = user.ProfileImage.ContentType.Split("/")[1];
-                    string[] allowedFileTypes = new string[] {"jpg", "jpeg", "png"};
-                    // todo: secure the file upload
+                    string[] allowedFileTypes = new string[] { "jpg", "jpeg", "png" };
+                    // todo: secure the file upload add to settings host
                     if (allowedFileTypes.Contains(contentType))
                     {
                         string newFileName = Path.GetRandomFileName().Split(".")[0];
                         string filePath = $"./Assets/Images/{newFileName}.{contentType}";
-
+                        string host = $"{this.httpContextAccessor.HttpContext.Request.Scheme}://{this.httpContextAccessor.HttpContext.Request.Host}";
+                        
                         using (var stream = System.IO.File.Create(filePath))
                         {
                             await user.ProfileImage.CopyToAsync(stream);
-                            userToEdit.ProfileImagePath = Path.GetFullPath(filePath);
-                        }   
+                            userToEdit.ProfileImagePath = $"{host}/api/users/user/{user.Id}/{newFileName}.{contentType}";
+                        }
                     }
                 }
-                
+
                 this.context.Users.Update(userToEdit);
-                await this.context.SaveChangesAsync();    
+                await this.context.SaveChangesAsync();
 
                 return userToEdit;
             }
@@ -68,7 +71,7 @@ namespace SocialSite.API.Data
             userToUpdate.LastName = userNewInfo.LastName;
             userToUpdate.DateOfBirth = userNewInfo.DateOfBirth;
             userToUpdate.Bio = userNewInfo.Bio;
-            
+
             return true;
         }
 

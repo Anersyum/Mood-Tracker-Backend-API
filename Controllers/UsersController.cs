@@ -87,5 +87,14 @@ namespace SocialSite.API.Controllers
         {
             return Ok("User deleted.");
         }
+
+        [AllowAnonymous]
+        [HttpGet("user/{id}/{url}")]
+        public async Task<IActionResult> GetImage(int id, string url)
+        {
+            string type = url.Split(".")[1];
+            var stream = System.IO.File.OpenRead($"./Assets/Images/{url}");
+            return File(stream, $"image/{type}");
+        }
     }
 }

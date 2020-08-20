@@ -48,6 +48,8 @@ namespace SocialSite.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDiaryRepository, DiaryRepository>();
             
+            services.AddHttpContextAccessor();
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
             {
                 options.TokenValidationParameters = new TokenValidationParameters
