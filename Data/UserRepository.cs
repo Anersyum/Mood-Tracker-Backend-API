@@ -41,12 +41,11 @@ namespace SocialSite.API.Data
                     {
                         string newFileName = Path.GetRandomFileName().Split(".")[0];
                         string filePath = $"./Assets/Images/{newFileName}.{contentType}";
-                        string host = $"{this.httpContextAccessor.HttpContext.Request.Scheme}://{this.httpContextAccessor.HttpContext.Request.Host}";
                         
                         using (var stream = System.IO.File.Create(filePath))
                         {
                             await user.ProfileImage.CopyToAsync(stream);
-                            userToEdit.ProfileImagePath = $"{host}/api/users/user/{user.Id}/{newFileName}.{contentType}";
+                            userToEdit.ProfileImagePath = $"{newFileName}.{contentType}";
                         }
                     }
                 }

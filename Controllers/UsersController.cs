@@ -94,6 +94,7 @@ namespace SocialSite.API.Controllers
         {
             string type = url.Split(".")[1];
             var stream = System.IO.File.OpenRead($"./Assets/Images/{url}");
+            
             return File(stream, $"image/{type}");
         }
     }

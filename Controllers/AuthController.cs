@@ -1,11 +1,7 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using SocialSite.API.Data;
 using SocialSite.API.Dto;
 using SocialSite.API.Models;
