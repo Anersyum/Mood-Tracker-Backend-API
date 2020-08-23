@@ -32,7 +32,7 @@ namespace SocialSite.API.Data
 
                 this.UpdateUser(userToEdit, user);
 
-                if (user.ProfileImage.Length > 0)
+                if (user.ProfileImage != null)
                 {
                     var contentType = user.ProfileImage.ContentType.Split("/")[1];
                     string[] allowedFileTypes = new string[] { "jpg", "jpeg", "png" };
