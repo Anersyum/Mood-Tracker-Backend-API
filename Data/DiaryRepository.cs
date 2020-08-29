@@ -11,7 +11,7 @@ namespace SocialSite.API.Data
     public class DiaryRepository : IDiaryRepository
     {
         private readonly DataContext context;
-        private readonly int numberOfEntriesPerPage = 11;
+        private readonly int numberOfEntriesPerPage = 10;
         public DiaryRepository(DataContext context)
         {
             this.context = context;
