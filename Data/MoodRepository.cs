@@ -52,9 +52,17 @@ namespace SocialSite.API.Data
             var allMoods = await this.context.Moods.ToListAsync();
             int i = 1;
 
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            int daysInMonth = DateTime.DaysInMonth(year, month);
+            
+            DateTime endDateOfMonth = new DateTime(year, month, daysInMonth, 23, 59, 59);
+            DateTime beginingOfMonth = new DateTime(year, month, 1);
+
             foreach (var mood in allMoods)
             {
-                int moodCount = await this.context.UserMoods.Where(x => x.MoodId == i).CountAsync();
+                int moodCount = await this.context.UserMoods.Where(x => x.MoodId == i && 
+                    (x.DateRecorded >= beginingOfMonth && x.DateRecorded <= endDateOfMonth)).CountAsync();
                 i++;
 
                 if (moodCount == 0)
