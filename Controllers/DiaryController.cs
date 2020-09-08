@@ -36,7 +36,7 @@ namespace SocialSite.API.Controllers
             // maybe check if the user exists?
             var diaryEntries = await this.diaryRepository.GetAllUserDiaryEntries(userId, page);
             var mappedEntries = this.mapper.Map<ICollection<DiaryToReturnDto>>(diaryEntries);
-
+            
             return Ok(mappedEntries);
         }
 

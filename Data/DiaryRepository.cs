@@ -20,6 +20,7 @@ namespace SocialSite.API.Data
         public async Task<ICollection<Diary>> GetAllUserDiaryEntries(int userId, int page)
         {
             return await this.context.Diary.Where(x => x.UserId == userId)
+                            .OrderBy(x => x.DateRecorded)
                             .Skip((page - 1) * this.numberOfEntriesPerPage)
                             .Take(page * this.numberOfEntriesPerPage)
                             .ToListAsync();
@@ -90,8 +91,10 @@ namespace SocialSite.API.Data
             try
             {
                 var entries = await this.context.Diary.Where(x => 
-                    x.DateRecorded >= beginingOfMonth && x.DateRecorded <= endDateOfMonth).
-                        Skip((page - 1) * this.numberOfEntriesPerPage).Take(page * this.numberOfEntriesPerPage).ToListAsync();
+                    x.DateRecorded >= beginingOfMonth && x.DateRecorded <= endDateOfMonth)
+                        .OrderBy(x => x.DateRecorded)
+                        .Skip((page - 1) * this.numberOfEntriesPerPage)
+                        .Take(page * this.numberOfEntriesPerPage).ToListAsync();
                 
                 return entries;
             }
