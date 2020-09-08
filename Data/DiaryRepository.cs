@@ -81,5 +81,24 @@ namespace SocialSite.API.Data
 
             return true;
         }
+
+        public async Task<ICollection<Diary>> GetFilteredUserDiaryEntreis(int month, int year, int page)
+        {
+            DateTime endDateOfMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month), 23, 59, 59);
+            DateTime beginingOfMonth = new DateTime(year, month, 1);
+
+            try
+            {
+                var entries = await this.context.Diary.Where(x => 
+                    x.DateRecorded >= beginingOfMonth && x.DateRecorded <= endDateOfMonth).
+                        Skip((page - 1) * this.numberOfEntriesPerPage).Take(page * this.numberOfEntriesPerPage).ToListAsync();
+                
+                return entries;
+            }
+            catch(Exception e) 
+            {
+                return null;
+            }
+        }
     }
 }

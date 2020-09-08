@@ -87,5 +87,21 @@ namespace SocialSite.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("filter/{month}/{year}/{page}")]
+        public async Task<IActionResult> FilterDiaryEntriesViaDate(string month, string year, string page)
+        {
+            var entries = await this.diaryRepository.GetFilteredUserDiaryEntreis(Convert.ToInt32(month), Convert.ToInt32(year),
+                Convert.ToInt32(page));
+
+            if (entries == null)
+            {
+                return BadRequest();
+            }
+
+            var mappedEntries = this.mapper.Map<ICollection<DiaryToReturnDto>>(entries);
+
+            return Ok(mappedEntries);
+        }
     }
 }

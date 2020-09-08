@@ -12,5 +12,6 @@ namespace SocialSite.API.Data
          Task<Diary> GetDiaryEntry(int diaryId, int userId); 
          Task<bool> DeleteDiaryEntry(DiaryDto diaryEntry);
          Task<bool> EditDiaryEntry(DiaryDto diaryEntry);
+         Task<ICollection<Diary>> GetFilteredUserDiaryEntreis(int month, int year, int page);
     }
 }
