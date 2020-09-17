@@ -24,7 +24,7 @@ namespace SocialSite.API.Helpers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim("profile_pic", user.ProfileImagePath)
+                new Claim("profile_pic", (user.ProfileImagePath == null) ? "placeholder.jpg" : user.ProfileImagePath)
             };
 
             // here we sign the token so that we can authenticate the token on the server side

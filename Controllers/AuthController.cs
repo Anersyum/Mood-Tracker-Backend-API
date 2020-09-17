@@ -28,6 +28,11 @@ namespace SocialSite.API.Controllers
             string usernameToLower = userToRegister.Username.ToLower();
             string emailToLower = userToRegister.Email.ToLower();
 
+            if (userToRegister.Password != userToRegister.RePassword)
+            {
+                return BadRequest("Passwords do not match!");
+            }
+
             if (!this.authRepo.ValidateEmail(emailToLower))
             {
                 return BadRequest("You haven't entered a valid email.");
@@ -41,9 +46,7 @@ namespace SocialSite.API.Controllers
             User user = new User() {
                 Username = usernameToLower,
                 Email = emailToLower,
-                FirstName = userToRegister.FirstName,
-                LastName = userToRegister.LastName,
-                DateOfBirth = userToRegister.DateOfBirth
+                ProfileImagePath = "placeholder.jpg"
             };
 
             user = await this.authRepo.Register(user, userToRegister.Password);

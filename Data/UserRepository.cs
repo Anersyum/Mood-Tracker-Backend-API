@@ -66,10 +66,6 @@ namespace SocialSite.API.Data
         {
             userToUpdate.Username = userNewInfo.Username;
             userToUpdate.Email = userNewInfo.Email;
-            userToUpdate.FirstName = userNewInfo.FirstName;
-            userToUpdate.LastName = userNewInfo.LastName;
-            userToUpdate.DateOfBirth = userNewInfo.DateOfBirth;
-            userToUpdate.Bio = userNewInfo.Bio;
 
             return true;
         }

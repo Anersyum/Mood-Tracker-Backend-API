@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SocialSite.API.Migrations
 {
-    public partial class ChangedMoodsAndAddedUserMoods : Migration
+    public partial class EditedUserInfoMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,14 +14,10 @@ namespace SocialSite.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(nullable: true),
-                    Bio = table.Column<string>(nullable: true),
                     ProfileImagePath = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSat = table.Column<byte[]>(nullable: true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false)
+                    Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
