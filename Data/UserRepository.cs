@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,10 +71,21 @@ namespace SocialSite.API.Data
             return true;
         }
 
-        public async void DeleteUser(User user)
+        public async Task<bool> DeleteUser(int id)
         {
-            this.context.Users.Remove(user);
-            await this.context.SaveChangesAsync();
+            try
+            {
+                var user = await this.context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+                this.context.Users.Remove(user);
+                await this.context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<User>> GetUsersByUsername(string username)

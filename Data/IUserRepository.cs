@@ -11,6 +11,6 @@ namespace SocialSite.API.Data
          Task<User> GetUserViaId(int userId);
          Task<User> EditUser(EditUserDto user);
 
-         void DeleteUser(User user);
+         Task<bool> DeleteUser(int id);
     }
 }

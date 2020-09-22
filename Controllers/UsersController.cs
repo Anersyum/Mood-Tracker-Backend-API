@@ -81,10 +81,15 @@ namespace SocialSite.API.Controllers
             });
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost("delete/user")]
         public async Task<IActionResult> DeleteUser(UserDto user)
         {
-            return Ok("User deleted.");
+            if (!await this.userRepo.DeleteUser(user.UserId))
+            {
+                return BadRequest("Couldn't delete user or user doesn't exits!");
+            }
+
+            return Ok();
         }
 
         [AllowAnonymous]
