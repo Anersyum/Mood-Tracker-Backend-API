@@ -33,11 +33,11 @@ namespace SocialSite.API.Data
 
                 this.UpdateUser(userToEdit, user);
 
-                if (user.ProfileImage != null)
+                if (user.ProfileImage != null && (user.ProfileImage.Length / Math.Pow(1024, 2)) < 2.0)
                 {
                     var contentType = user.ProfileImage.ContentType.Split("/")[1];
                     string[] allowedFileTypes = new string[] { "jpg", "jpeg", "png" };
-                    // todo: secure the file upload add to settings host
+
                     if (allowedFileTypes.Contains(contentType))
                     {
                         string newFileName = Path.GetRandomFileName().Split(".")[0];

@@ -30,17 +30,17 @@ namespace SocialSite.API.Controllers
 
             if (userToRegister.Password != userToRegister.RePassword)
             {
-                return BadRequest("Passwords do not match!");
+                return BadRequest(AuthStatusCodes.PASSWORDS_NO_MATCH);
             }
 
             if (!this.authRepo.ValidateEmail(emailToLower))
             {
-                return BadRequest("You haven't entered a valid email.");
+                return BadRequest(AuthStatusCodes.WRONG_EMAIL_FORMAT);
             }
 
             if (await this.authRepo.UserExits(usernameToLower, emailToLower))
             {
-                return BadRequest("Username exits!");
+                return BadRequest(AuthStatusCodes.USERNAME_EXISTS);
             }
 
             User user = new User() {
